@@ -1,0 +1,7 @@
+script_py/
+
+script/node_modules/
+script/.env
+
+web/node_modules/
+web/.env
