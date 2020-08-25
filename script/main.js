@@ -7,8 +7,6 @@
  *      5. envia os dados por websocket ao cliente
  */
 
-require('dotenv/config')
-
-class Script {
-
-}
+require('dotenv/config');
+const io = require('socket.io-client')('http://localhost:9000');
+const Server = require('./server')(process.env.PORT);
