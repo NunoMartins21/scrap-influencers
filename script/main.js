@@ -7,6 +7,13 @@
  *      5. envia os dados por websocket ao cliente
  */
 
-require('dotenv/config');
-const io = require('socket.io-client')('http://localhost:9000');
-const Server = require('./server')(process.env.PORT);
+const dotenv = require('dotenv');
+dotenv.config();
+
+const Scrapper = require('./scrapper');
+const scrapper = new Scrapper(["beauty", "makeup"]);
+
+scrapper.startScrapping()
+        .then(res => {
+            console.log(JSON.stringify(res, null, 1));
+        });
