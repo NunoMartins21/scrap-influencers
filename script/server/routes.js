@@ -1,6 +1,7 @@
 import { Router } from 'express';
 import * as actions from '../actions';
 import store from '../store';
+import settings from '../settings';
 
 import Scrapper from '../scrapper';
 
@@ -24,23 +25,22 @@ export default class Routes {
     static scrapper() {
         let router = Router();
 
-        router.get('/start', async (req, res) => {
+        router.get('/start', async (req, res, next) => {
             try {
                 let scrapper = new Scrapper();
                 store.dispatch(actions.scrapping(scrapper))
                     .then(() => {
-                        if (!store.getState().scrapper.error) {
+                        const state = store.getState();
+                        if (!state.scrapper.error) {
                             res.json({
                                 statusCode: res.statusCode,
-                                scrapped: store.getState().scrapper.scrapped,
-                                influencers: store.getState().scrapper.influencers
+                                scrapped: state.scrapper.scrapped,
+                                influencers: state.scrapper.influencers,
+                                state: state
                             });
                         }
                         else {
-                            res.status(500).json({
-                                statusCode: res.statusCode,
-                                error: store.getState().scrapper.error
-                            });
+                            next(state.scrapper.error)
                         }
                     })
                     .catch(err => {
@@ -61,7 +61,7 @@ export default class Routes {
         router.get('/hashtags', (req, res) => {
             res.json({
                 statusCode: res.statusCode,
-                hashtags: settings.hashtags
+                hashtags: settings.scrapper.hashtags
             });
         });
 
@@ -69,15 +69,19 @@ export default class Routes {
             let hashtags = req.query.array;
             res.json({
                 statusCode: res.statusCode,
+                success: true,
+                msg: "Hashtags added successfully!"
             });
         });
 
+        // TODO
         router.post('/hashtags/edit', (req, res) => {
             res.json({
                 statusCode: res.statusCode,
             });
         });
 
+        // TODO
         router.delete('/hashtags/delete', (req, res) => {
             res.json({
                 statusCode: res.statusCode,

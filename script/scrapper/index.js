@@ -1,6 +1,8 @@
-require('dotenv').config();
+import dotenv from 'dotenv';
 import axios from 'axios';
 import settings from '../settings';
+
+dotenv.config();
 
 export default class Scrapper {
     /**
@@ -69,7 +71,7 @@ export default class Scrapper {
                     influencer.handle = user_req.data.user.username;
 
                     // Fetching and parsing Instagram's response
-                    let user_info_req = await axios.get(this.user_url(influencer.handle));
+                    let user_info_req = await axios.get(this.user_url(influencer.handle), { headers: this.headers });
                     let user_data = JSON.parse(await user_info_req.data.match(/<script type="text\/javascript">window\._sharedData = (.*)<\/script>/)[1].slice(0, -1)).entry_data.ProfilePage[0].graphql.user;
 
                     // Adding parsed response to the influencer object
@@ -101,8 +103,8 @@ export default class Scrapper {
         } catch (err) {
             return {
                 statusCode: 0,
-                error: err.toString()
-            }
+                error: err.stack
+            };
         }
     }
 }

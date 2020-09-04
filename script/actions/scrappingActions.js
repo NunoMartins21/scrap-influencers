@@ -4,10 +4,8 @@ export const start_scrapping = () => {
     return {
         type: actionTypes.START_SCRAPPING,
         payload: {
-            scrapper: {
-                isScrapping: true,
-                startedAt: Date.now().toLocaleString()
-            }
+            isScrapping: true,
+            startedAt: new Date().toLocaleString()
         }
     }
 }
@@ -16,12 +14,11 @@ export const stop_scrapping = (data) => {
     return {
         type: actionTypes.STOP_SCRAPPING,
         payload: {
-            scrapper: {
-                isScrapping: false,
-                endedAt: Date.now().toLocaleString(),
-                scrapped: data.scrapped,
-                influencers: data.influencers
-            }
+            isScrapping: false,
+            endedAt: new Date().toLocaleString(),
+            scrapped: data.scrapped,
+            influencers: data.influencers,
+            data: data
         }
     }
 }
@@ -30,11 +27,9 @@ export const scrapping_error = (error) => {
     return {
         type: actionTypes.SCRAPPING_ERROR,
         payload: {
-            scrapper: {
-                isScrapping: false,
-                endedAt: Date.now().toLocaleString(),
-                error: error
-            }
+            isScrapping: false,
+            endedAt: new Date().toLocaleString(),
+            error: error
         }
     }
 }
@@ -44,10 +39,7 @@ export const scrapping = (scrapper) => {
         dispatch(start_scrapping());
         return scrapper.startScrapping()
             .then(res => {
-                dispatch(stop_scrapping());
-            })
-            .catch(err => {
-                dispatch(scrapping_error(err));
+                dispatch(stop_scrapping(res));
             });
     }
 }
