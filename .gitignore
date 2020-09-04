@@ -5,3 +5,5 @@ script/.env
 
 web/node_modules/
 web/.env
+
+.vscode/
