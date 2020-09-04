@@ -1,13 +1,14 @@
 require('dotenv').config();
-const axios = require('axios');
+import axios from 'axios';
+import settings from '../settings';
 
-class Scrapper {
+export default class Scrapper {
     /**
      * **Scrapper**: responsible for scrapping and handling scrapped data from Instagram.
      * * scraps data from given hashtags
      * @param {*} hashtags 
      */
-    constructor(hashtags=[]) {
+    constructor(hashtags=settings.scrapper.hashtags) {
         this.hashtag_url = x => `https://www.instagram.com/explore/tags/${x}`;
         this.get_profile_url = x => `https://i.instagram.com/api/v1/users/${x}/info/`;
         this.user_url = x => `https://www.instagram.com/${x}`;
@@ -105,5 +106,3 @@ class Scrapper {
         }
     }
 }
-
-module.exports = Scrapper;

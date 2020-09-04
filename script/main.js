@@ -7,13 +7,8 @@
  *      5. envia os dados por websocket ao cliente
  */
 
-const dotenv = require('dotenv');
+import dotenv from 'dotenv';
+import Server from './server';
+
 dotenv.config();
-
-const Scrapper = require('./scrapper');
-const scrapper = new Scrapper(["beauty", "makeup"]);
-
-scrapper.startScrapping()
-        .then(res => {
-            console.log(JSON.stringify(res, null, 1));
-        });
+const server = new Server();

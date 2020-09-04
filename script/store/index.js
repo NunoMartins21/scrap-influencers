@@ -1,9 +1,10 @@
-import { createStore } from 'redux';
-import reducers from '../reducers/index';
+import { createStore, applyMiddleware } from 'redux';
+import { reducers } from '../reducers/index';
+import thunk from 'redux-thunk';
 
 const initialState = {
     scrapper: {
-        started: false,
+        isScrapping: false,
         scrapped: 0,
         influencers: {}
     },
@@ -17,4 +18,6 @@ const initialState = {
     }
 }
 
-export default store = createStore(reducers, initialState);
+const store = createStore(reducers, initialState, applyMiddleware(thunk));
+
+export default store;

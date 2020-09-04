@@ -1,6 +1,11 @@
 import { CONNECT_DB, DUMP_DB, CLOSE_DB } from '../constants/actionTypes';
 
-export default databaseReducer = (state = {}, action) => {
+const initialState = {
+    connected: false,
+    dumped: false
+}
+
+const databaseReducer = (state = initialState, action) => {
     switch (action.type) {
         case CONNECT_DB || DUMP_DB || CLOSE_DB:
             return {
@@ -11,3 +16,5 @@ export default databaseReducer = (state = {}, action) => {
             return state;
     }
 }
+
+export default databaseReducer;

@@ -1,4 +1,8 @@
-import { Router } from 'express'
+import { Router } from 'express';
+import * as actions from '../actions';
+import store from '../store';
+
+import Scrapper from '../scrapper';
 
 /**
  * **Routes**: a class which organizes routers for Express. All methods are ``static`` and this class cannot be instantiated (*well, it doesn't even make any sense whatsoever*).
@@ -14,33 +18,72 @@ export default class Routes {
      *     * ``GET /start``
      *     * ``GET /hashtags``
      *     * ``POST /hashtags/add?array=[...]``
-     *     * ``UPDATE /hashtags/edit?array=[...]``
+     *     * ``POST /hashtags/edit?array=[...]``
      *     * ``DELETE /hashtags/delete?array=[...]``
      */
     static scrapper() {
         let router = Router();
 
-        router.get('/start', (req, res) => {
-
+        router.get('/start', async (req, res) => {
+            try {
+                let scrapper = new Scrapper();
+                store.dispatch(actions.scrapping(scrapper))
+                    .then(() => {
+                        if (!store.getState().scrapper.error) {
+                            res.json({
+                                statusCode: res.statusCode,
+                                scrapped: store.getState().scrapper.scrapped,
+                                influencers: store.getState().scrapper.influencers
+                            });
+                        }
+                        else {
+                            res.status(500).json({
+                                statusCode: res.statusCode,
+                                error: store.getState().scrapper.error
+                            });
+                        }
+                    })
+                    .catch(err => {
+                        res.status(500).json({
+                            statusCode: res.statusCode,
+                            error: err
+                        });
+                    })
+            }
+            catch (err) {
+                res.status(500).json({
+                    statusCode: res.statusCode,
+                    error: err.toString()
+                });
+            }
         });
 
         router.get('/hashtags', (req, res) => {
             res.json({
-                statusCode: 0,
-                hashtags: hashtags
+                statusCode: res.statusCode,
+                hashtags: settings.hashtags
             });
         });
 
         router.post('/hashtags/add', (req, res) => {
             let hashtags = req.query.array;
+            res.json({
+                statusCode: res.statusCode,
+            });
         });
 
-        router.update('/hashtags/edit', (req, res) => {
-
+        router.post('/hashtags/edit', (req, res) => {
+            res.json({
+                statusCode: res.statusCode,
+            });
         });
 
         router.delete('/hashtags/delete', (req, res) => {
-
+            res.json({
+                statusCode: res.statusCode,
+                deleted: true,
+                msg: "Hashtags deleted successfully!"
+            });
         })
 
         return router;
@@ -57,7 +100,7 @@ export default class Routes {
      *     * ``GET /info``
      */
     static database() {
-        let router = express.Router();
+        let router = Router();
 
         router.get('/connect', (req, res) => {
 

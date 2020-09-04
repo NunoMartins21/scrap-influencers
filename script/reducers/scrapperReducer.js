@@ -1,8 +1,14 @@
-import { START_SCRAPPING, STOP_SCRAPPING } from '../constants/actionTypes'
+import { START_SCRAPPING, STOP_SCRAPPING, SCRAPPING_ERROR } from '../constants/actionTypes'
 
-export default scrapperReducer = (state = {}, action) => {
+const initialState = {
+    isScrapping: false,
+    scrapped: 0,
+    influencers: {}
+};
+
+const scrapperReducer = (state = initialState, action) => {
     switch (action.type) {
-        case START_SCRAPPING || STOP_SCRAPPING:
+        case START_SCRAPPING || STOP_SCRAPPING || SCRAPPING_ERROR:
             return {
                 ...state,
                 ...action.payload
@@ -11,3 +17,5 @@ export default scrapperReducer = (state = {}, action) => {
             return state;
     }
 }
+
+export default scrapperReducer;

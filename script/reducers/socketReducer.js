@@ -1,6 +1,11 @@
 import { START_SOCKET, CLOSE_SOCKET } from '../constants/actionTypes'
 
-export default scrapperReducer = (state = {}, action) => {
+const initialState = {
+    connected: false,
+    clients: 0
+}
+
+const socketReducer = (state = initialState, action) => {
     switch (action.type) {
         case START_SOCKET || CLOSE_SOCKET:
             return {
@@ -11,3 +16,5 @@ export default scrapperReducer = (state = {}, action) => {
             return state;
     }
 }
+
+export default socketReducer;
