@@ -10,13 +10,5 @@
 import dotenv from 'dotenv';
 import Server from './server';
 
-import * as actions from './actions/scrappingActions'
-import store from './store'
-import Scrapper from './scrapper'
-
-import settings from './settings'
-import axios from 'axios'
-import fs from 'fs'
-
 dotenv.config();
 const server = new Server();
