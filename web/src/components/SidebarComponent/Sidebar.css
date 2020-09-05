@@ -4,6 +4,10 @@
     flex-direction: column;
 }
 
+a, a:focus, a:hover, a:visited, a:link, a:active {
+    text-decoration: none;
+}
+
 .header {
     background-color: #34c3ff;
     padding: 18px;
