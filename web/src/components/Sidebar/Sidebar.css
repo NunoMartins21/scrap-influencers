@@ -1,0 +1,23 @@
+.sidebar {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+}
+
+.header {
+    background-color: #34c3ff;
+    padding: 18px;
+    color: white;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 700;
+    text-align: center;
+    font-size: larger;
+}
+
+.header-icon {
+    padding: 0 6px;
+}
+
+.body {
+    height: 100%;
+}

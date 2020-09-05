@@ -1,0 +1,11 @@
+.app {
+  margin: 0;
+  width: 100vw;
+  height: 100vh;
+  font-family: 'Montserrat', sans-serif;
+}
+
+.main {
+  padding: 10px 20px;
+  background-color: white;
+}
